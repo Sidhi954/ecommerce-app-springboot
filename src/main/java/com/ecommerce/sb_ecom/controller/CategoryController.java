@@ -1,5 +1,6 @@
 package com.ecommerce.sb_ecom.controller;
 
+import com.ecommerce.sb_ecom.config.AppConstants;
 import com.ecommerce.sb_ecom.model.Category;
 import com.ecommerce.sb_ecom.payload.CategoryDTO;
 import com.ecommerce.sb_ecom.payload.CategoryResponse;
@@ -21,8 +22,11 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping("/api/public/categories")
-    public ResponseEntity<CategoryResponse> getCategoryList() {
-        CategoryResponse allCategories=categoryService.getCategoryList();
+    public ResponseEntity<CategoryResponse> getCategoryList(
+            @RequestParam(name = "pageNumber", defaultValue = AppConstants.PAGE_NUMBER, required = false) Integer pageNumber,
+            @RequestParam(name = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize
+    ) {
+        CategoryResponse allCategories=categoryService.getCategoryList(pageNumber, pageSize);
         return new ResponseEntity<>(allCategories, HttpStatus.OK);
     }
 
