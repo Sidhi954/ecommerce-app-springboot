@@ -1,6 +1,7 @@
 package com.ecommerce.sb_ecom.controller;
 
 
+import com.ecommerce.sb_ecom.model.Category;
 import com.ecommerce.sb_ecom.model.Product;
 import com.ecommerce.sb_ecom.payload.ProductDTO;
 import com.ecommerce.sb_ecom.payload.ProductResponse;
@@ -21,6 +22,12 @@ public class ProductController {
     @GetMapping("/public/products")
     public ResponseEntity<ProductResponse> getProducts(){
         ProductResponse productResponse=productService.getAllProducts();
+        return new ResponseEntity<>(productResponse, HttpStatus.OK);
+    }
+
+
+    public ResponseEntity<ProductResponse> getProductByCategory(@PathVariable Category categoryId){
+        ProductResponse productResponse=productService.searchByCategory(categoryId);
         return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
 
