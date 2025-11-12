@@ -12,4 +12,6 @@ public interface ProductService {
     ProductResponse getAllProducts();
 
     ProductResponse searchByCategory(Category categoryId);
+
+    ProductDTO updateProduct(Product product, Long productId);
 }
