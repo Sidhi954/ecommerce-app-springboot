@@ -68,14 +68,23 @@ public class ProductServiceImpl implements ProductService {
         Product product1=productRepository.findById(productId)
                 .orElseThrow(()->new RuntimeException("Product not found"));
 
-        product1.setPrice(product1.getPrice());
-        product1.setSpecialPrice(product1.getSpecialPrice());
-        product1.setProductDescription(product1.getProductDescription());
-        product1.setDiscount(product1.getDiscount());
-        product1.setQuantity(product1.getQuantity());
+        product1.setProductName(product.getProductName());
+        product1.setProductDescription(product.getProductDescription());
+        product1.setQuantity(product.getQuantity());
+        product1.setPrice(product.getPrice());
+        product1.setDiscount(product.getDiscount());
+        product1.setSpecialPrice(product.getSpecialPrice());
 
-        productRepository.save(product1);
+        Product savedProduct=productRepository.save(product1);
 
-        return modelMapper.map(product1,ProductDTO.class);
+        return modelMapper.map(savedProduct,ProductDTO.class);
     }
 }
+//I was getting error in getting the product because I was
+//product1 already represents the existing product fetched from the database.
+//You should never change the primary key (ID) while updating.
+//If you try to set a new productId:
+//JPA thinks it is a new product
+//It may violate unique constraints
+//It may cause a DataIntegrityViolationException
+//This becomes a 500 internal server error
