@@ -79,6 +79,15 @@ public class ProductServiceImpl implements ProductService {
 
         return modelMapper.map(savedProduct,ProductDTO.class);
     }
+
+
+    @Override
+    public ProductDTO deleteProduct(Long productId) {
+        Product product1=productRepository.findById(productId)
+                .orElseThrow(()->new RuntimeException("Product Not Found"));
+        productRepository.delete(product1);
+        return modelMapper.map(product1,ProductDTO.class);
+    }
 }
 //I was getting error in getting the product because I was
 //product1 already represents the existing product fetched from the database.

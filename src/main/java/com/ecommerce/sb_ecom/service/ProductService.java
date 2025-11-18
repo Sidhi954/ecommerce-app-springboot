@@ -7,6 +7,7 @@ import com.ecommerce.sb_ecom.payload.ProductResponse;
 
 
 public interface ProductService {
+
     ProductDTO addProduct(Product product, Long categoryId);
 
     ProductResponse getAllProducts();
@@ -14,4 +15,6 @@ public interface ProductService {
     ProductResponse searchByCategory(Category categoryId);
 
     ProductDTO updateProduct(Product product, Long productId);
+
+    ProductDTO deleteProduct(Long productId);
 }
