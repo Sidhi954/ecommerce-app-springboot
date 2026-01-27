@@ -31,6 +31,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO addProduct(Product product, Long categoryId) {
         Category category=categoryRepository.findById(categoryId)
                 .orElseThrow(()->new RuntimeException("Category not found"));
+
         product.setImage("default.png");
         product.setCategory(category);
         double specialPrice=product.getPrice()-((product.getPrice()*0.01)* product.getPrice());
@@ -87,6 +88,17 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(()->new RuntimeException("Product Not Found"));
         productRepository.delete(product1);
         return modelMapper.map(product1,ProductDTO.class);
+    }
+
+    @Override
+    public ProductResponse searchProductByKeyword(String keyword) {
+        List<Product> products=productRepository.findByProductNameLikeIgnoreCase("%"+keyword+"%");
+        List<ProductDTO> productDTOS=products.stream()
+                .map(product -> modelMapper.map(product,ProductDTO.class))
+                .toList();
+        ProductResponse productResponse=new ProductResponse();
+        productResponse.setContent(productDTOS);
+        return productResponse;
     }
 }
 //I was getting error in getting the product because I was
